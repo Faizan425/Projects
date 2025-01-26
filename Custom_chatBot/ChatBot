@@ -1,0 +1,25 @@
+
+
+
+from boltiotai import openai
+import os
+import sys
+question = input("Assistant: Hello! how can I assist you today?"+"\n"+"User: ")
+while True:
+  try:
+    openai.api_key=os.environ['OPEN_API_KEY']
+  except KeyError:
+    sys.stderr.write("""
+    You have not set up your API key yet.
+    If you don't have an API key yet then get one""")
+    exit(1)
+  response = openai.chat.completions.create(
+    model ="gpt-3.5-turbo",
+    messages=[
+      {"role": "system", "content":"You are helpful assistant" },
+        {"role":"user","content":question}])
+  output=response['choices'][0]['message']['content']
+  print("\n"+"Assistant: "+output+"\n")
+  question=input("User: ")
+               
+  
